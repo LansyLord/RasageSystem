@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 public class Comanda {
-    //private Cliente cliente;
+    private Cliente cliente;
     private Servico servico;
     private String tipoPagamento;
     public static final String CREDITO = "Crédito";
@@ -10,8 +10,8 @@ public class Comanda {
     private String data;
     private CodigoServico cdigoServico;
 
-    public Comanda(Servico servico, String tipoPagamento, String data, CodigoServico codigoServico){
-        //this.cliente = cliente;
+    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data, CodigoServico codigoServico){
+        this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;
         this.data = data;
@@ -19,7 +19,7 @@ public class Comanda {
     }
 
     public Comanda(){
-        this(null, "Sem pagamento", "dd/mm/yyyy", null);
+        this(null, null, "Sem pagamento", "dd/mm/yyyy", null);
     }
 
     @Override
@@ -34,6 +34,14 @@ public class Comanda {
     @Override
     public int hashCode() {
         return Objects.hash(servico, tipoPagamento, data, cdigoServico);
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Servico getServico() {

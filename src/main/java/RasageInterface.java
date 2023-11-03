@@ -6,9 +6,10 @@ public interface RasageInterface {
     List<Comanda> listarComandas();
     List<Comanda> pesquisarComandasPorData(String data);
     boolean apagarComanda(Comanda comanda);
-//    boolean cadastrarCliente(Cliente cliente);
-//    List<Cliente> listarClientes();
-//    Cliente atualizarCliente(Cliente cliente);
-//    boolean pesquisarCliente(String nome, String cpf);
-//    boolean apagarCliente(Cliente cliente);
+
+    boolean cadastrarCliente(Cliente cliente);
+    List<Cliente> listarClientes();
+    Cliente atualizarCliente(Cliente cliente);
+    boolean pesquisarCliente(String nome, String cpf);
+    boolean apagarCliente(Cliente cliente);
 }
