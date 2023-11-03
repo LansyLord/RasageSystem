@@ -78,8 +78,9 @@ public class Comanda {
 
     @Override
     public String toString(){
-        return "Nome do cliente: "+
-                "CPF: "+
+        return "Nome do cliente: "+ cliente.getNome()+
+                "CPF: "+ cliente.getCpf()+
+                "Número de Celular: "+ cliente.getNumCelular()+
                 "Serviço realizado: "+ this.servico+
                 "Código do Serviço: "+ this.cdigoServico+
                 "Data: "+ this.data+
