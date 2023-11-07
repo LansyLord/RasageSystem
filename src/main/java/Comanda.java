@@ -10,20 +10,30 @@ public class Comanda {
     public static final String DINHEIRO_OU_PIX = "Dinheiro ou Pix";
     private String data;
 
-    private static int proximoID = 1;
+    private static int proximoID;
 
-    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data){
+    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data) {
         this.id = proximoID;
         this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;
         this.data = data;
-
-        proximoID++;
     }
 
-    public Comanda(){
+    public Comanda(int id, Cliente cliente, Servico servico, String tipoPagamento, String data) {
+        this.id = id;
+        this.cliente = cliente;
+        this.servico = servico;
+        this.tipoPagamento = tipoPagamento;
+        this.data = data;
+    }
+
+    public Comanda() {
         this(null, null, "Sem pagamento", "dd/mm/yyyy");
+    }
+
+    public static void configurarProximoID(int novoProximoID) {
+        proximoID = novoProximoID;
     }
 
     @Override
@@ -72,23 +82,26 @@ public class Comanda {
         this.data = data;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-
+    public void setId(int novoId) {
+        this.id = novoId;
+    }
 
     @Override
-    public String toString(){
-        return  "------------------------------------------------"+
-                "\nID: "+ this.id+
-                "\nNome do cliente: "+ cliente.getNome()+
-                "\nCPF: "+ cliente.getCpf()+
-                "\nNúmero de Celular: "+ cliente.getNumCelular()+
-                "\nServiço realizado: "+ this.servico+
-                "\nData: "+ this.data+
-                "\nValor pago: "+ servico.getValor()+
-                "\nTipo de pagamento: "+ this.tipoPagamento+
+    public String toString() {
+        return "------------------------------------------------" +
+                "\nID: " + this.id +
+                "\nNome do cliente: " + cliente.getNome() +
+                "\nCPF: " + cliente.getCpf() +
+                "\nNúmero de Celular: " + cliente.getNumCelular() +
+                "\nServiço realizado: " + this.servico +
+                "\nCódigo do serviço: " + servico.getCodigoServico() +
+                "\nData: " + this.data +
+                "\nValor pago: " + servico.getValor() +
+                "\nTipo de pagamento: " + this.tipoPagamento +
                 "\n------------------------------------------------";
 
     }

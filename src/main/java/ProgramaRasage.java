@@ -7,13 +7,24 @@ import excecoes.comanda.NaoHaComandasNoSistemaException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramaRasage {
     public static void main(String[] args) {
 
+
         RasageInterface rasageSystem = new RasageList();
+        rasageSystem.configurarProximoID();
+
+        try{
+            rasageSystem.recuperarDadosComandas();
+            rasageSystem.recuperarDadosClientes();
+            JOptionPane.showMessageDialog(null, "Dados recuperados com sucesso!");
+        }catch (IOException e){
+            JOptionPane.showMessageDialog(null, "Não há dados para recuperar!");
+        }
 
         int escolha = -1;
         while (escolha != 2) {
@@ -293,10 +304,17 @@ public class ProgramaRasage {
                         }
                     }
                     break;
+
+                case 2:
+                    try{
+                        rasageSystem.salvarDadosComandas();
+                        rasageSystem.salvarDadosClientes();
+                        JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+                    }catch (IOException e){
+                        JOptionPane.showMessageDialog(null, "Não foi possível salvar os dados!");
+                    }
             }
         }
-//        Comanda comanda = new Comanda(new Cliente("a","654654","654654"), new Unha(true, true, "", "", ""),"credito","854321");
-//        System.out.println(comanda);
     }
 
     public static void exibirComandas(List<Comanda> comandas) {
@@ -309,6 +327,7 @@ public class ProgramaRasage {
             formattedComandas.append("CPF: ").append(comanda.getCliente().getCpf()).append("\n");
             formattedComandas.append("Número de Celular: ").append(comanda.getCliente().getNumCelular()).append("\n");
             formattedComandas.append("Serviço realizado: ").append(comanda.getServico()).append("\n");
+            formattedComandas.append("Código do Serviço: ").append(comanda.getServico().getCodigoServico()).append("\n");
             formattedComandas.append("Data: ").append(comanda.getData()).append("\n");
             formattedComandas.append("Valor pago: ").append(comanda.getServico().getValor()).append("\n");
             formattedComandas.append("Tipo de pagamento: ").append(comanda.getTipoPagamento()).append("\n");

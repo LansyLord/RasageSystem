@@ -5,21 +5,28 @@ import excecoes.comanda.ComandaJaExisteException;
 import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RasageList implements RasageInterface {
     private List<Comanda> comandas;
     private List<Cliente> clientes;
+    private GerenciadorDeDados gerenciadorDadosComanda;
+    private GerenciadorDeDados gerenciadorDadosCliente;
 
     public RasageList(List<Comanda> comandas, List<Cliente> clientes) {
         this.comandas = comandas;
         this.clientes = clientes;
+        gerenciadorDadosComanda = new GerenciadorDeDados("comandas.txt");
+        gerenciadorDadosCliente = new GerenciadorDeDados("clientes.txt");
     }
 
     public RasageList() {
         this.comandas = new ArrayList<>();
         this.clientes = new ArrayList<>();
+        gerenciadorDadosComanda = new GerenciadorDeDados("comandas.txt");
+        gerenciadorDadosCliente = new GerenciadorDeDados("clientes.txt");
     }
 
     @Override
@@ -118,6 +125,66 @@ public class RasageList implements RasageInterface {
     @Override
     public List<Cliente> getClientes() {
         return this.clientes;
+    }
+
+    @Override
+    public void recuperarDadosComandas() throws IOException {
+        List<String> comandasSalvas = gerenciadorDadosComanda.lerDados();
+        for(String s: comandasSalvas){
+            String [] dadosComandas = s.split("#");
+            Cliente cliente = new Cliente(dadosComandas[1], dadosComandas[2], dadosComandas[3]);
+
+            double valorComanda = Double.parseDouble(dadosComandas[7]);
+            CodigoServico codigoServicoComanda = CodigoServico.valueOf(dadosComandas[5]);
+            Servico servico = new Servico(valorComanda, codigoServicoComanda);
+
+            int id = Integer.parseInt(dadosComandas[0]);
+            Comanda comanda = new Comanda(id, cliente, servico, dadosComandas[8], dadosComandas[6]);
+
+            this.comandas.add(comanda);
+        }
+
+    }
+
+    @Override
+    public void salvarDadosComandas() throws IOException {
+        List<String> dadosComandas = new ArrayList<>();
+        for(Comanda cm: this.comandas){
+            dadosComandas.add(cm.getId()+"#"+cm.getCliente().getNome()+"#"+
+                              cm.getCliente().getCpf()+"#"+cm.getCliente().getNumCelular()+"#"+
+                              cm.getServico()+"#"+cm.getServico().getCodigoServico()+"#"+
+                              cm.getData()+"#"+cm.getServico().getValor()+"#"+cm.getTipoPagamento());
+        }
+        gerenciadorDadosComanda.gravarDados(dadosComandas);
+    }
+
+    @Override
+    public void recuperarDadosClientes() throws IOException {
+        List<String> clientesSalvos = gerenciadorDadosCliente.lerDados();
+        for(String s: clientesSalvos){
+            String [] dadosClientes = s.split("#");
+            Cliente cliente = new Cliente(dadosClientes[0], dadosClientes[1], dadosClientes[2]);
+            this.clientes.add(cliente);
+        }
+    }
+
+    @Override
+    public void salvarDadosClientes() throws IOException {
+        List<String> dadosClientes = new ArrayList<>();
+        for(Cliente cl: this.clientes){
+            dadosClientes.add(cl.getNome()+"#"+cl.getCpf()+"#"+cl.getNumCelular());
+        }
+        gerenciadorDadosCliente.gravarDados(dadosClientes);
+    }
+
+    public void configurarProximoID() {
+        int maxID = 0;
+        for (Comanda comanda : this.comandas) {
+            if (comanda.getId() > maxID) {
+                maxID = comanda.getId();
+            }
+        }
+        Comanda.configurarProximoID(maxID + 1);
     }
 
     @Override

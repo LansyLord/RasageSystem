@@ -5,6 +5,7 @@ import excecoes.comanda.ComandaJaExisteException;
 import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface RasageInterface {
@@ -21,4 +22,10 @@ public interface RasageInterface {
 
     List<Comanda> getComandas();
     List<Cliente> getClientes();
+
+    void recuperarDadosComandas() throws IOException;
+    void salvarDadosComandas() throws IOException;
+    void recuperarDadosClientes() throws IOException;
+    void salvarDadosClientes() throws IOException;
+    void configurarProximoID();
 }
