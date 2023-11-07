@@ -1,6 +1,7 @@
 import java.util.Objects;
 
 public class Comanda {
+    private int id;
     private Cliente cliente;
     private Servico servico;
     private String tipoPagamento;
@@ -8,18 +9,21 @@ public class Comanda {
     public static final String DEBITO = "Débito";
     public static final String DINHEIRO_OU_PIX = "Dinheiro ou Pix";
     private String data;
-    private CodigoServico cdigoServico;
 
-    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data, CodigoServico codigoServico){
+    private static int proximoID = 1;
+
+    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data){
+        this.id = proximoID;
         this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;
         this.data = data;
-        this.cdigoServico = codigoServico;
+
+        proximoID++;
     }
 
     public Comanda(){
-        this(null, null, "Sem pagamento", "dd/mm/yyyy", null);
+        this(null, null, "Sem pagamento", "dd/mm/yyyy");
     }
 
     @Override
@@ -28,12 +32,12 @@ public class Comanda {
         if (o == null || getClass() != o.getClass()) return false;
         Comanda comanda = (Comanda) o;
         return Objects.equals(servico, comanda.servico) && Objects.equals(tipoPagamento, comanda.tipoPagamento)
-                && Objects.equals(data, comanda.data) && cdigoServico == comanda.cdigoServico;
+                && Objects.equals(data, comanda.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(servico, tipoPagamento, data, cdigoServico);
+        return Objects.hash(servico, tipoPagamento, data);
     }
 
     public Cliente getCliente() {
@@ -68,24 +72,24 @@ public class Comanda {
         this.data = data;
     }
 
-    public CodigoServico getCdigoServico() {
-        return cdigoServico;
+    public int getId(){
+        return this.id;
     }
 
-    public void setCdigoServico(CodigoServico cdigoServico) {
-        this.cdigoServico = cdigoServico;
-    }
+
 
     @Override
     public String toString(){
-        return "Nome do cliente: "+ cliente.getNome()+
-                "CPF: "+ cliente.getCpf()+
-                "Número de Celular: "+ cliente.getNumCelular()+
-                "Serviço realizado: "+ this.servico+
-                "Código do Serviço: "+ this.cdigoServico+
-                "Data: "+ this.data+
-                "Valor pago: "+ servico.getValor()+
-                "Tipo de pagamento: "+ this.tipoPagamento;
+        return  "------------------------------------------------"+
+                "\nID: "+ this.id+
+                "\nNome do cliente: "+ cliente.getNome()+
+                "\nCPF: "+ cliente.getCpf()+
+                "\nNúmero de Celular: "+ cliente.getNumCelular()+
+                "\nServiço realizado: "+ this.servico+
+                "\nData: "+ this.data+
+                "\nValor pago: "+ servico.getValor()+
+                "\nTipo de pagamento: "+ this.tipoPagamento+
+                "\n------------------------------------------------";
 
     }
 }

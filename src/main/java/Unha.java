@@ -15,6 +15,10 @@ public class Unha extends Servico {
         this.tipoDeAlongamento = tipoDeAlongamento;
     }
 
+    public Unha() {
+        this(false, false, "", "", "");
+    }
+
     public static double calculaValorObj(boolean manicure, boolean pedicure) {
         if (manicure && pedicure) return 40.0;
         if (manicure || pedicure) return 25.0;
@@ -59,5 +63,19 @@ public class Unha extends Servico {
 
     public void setTipoDeAlongamento(String tipoDeAlongamento) {
         this.tipoDeAlongamento = tipoDeAlongamento;
+    }
+
+    @Override
+    public String toString() {
+        if (pedicure && manicure) {
+            return "Manicure e Pedicure";
+        }
+        if (pedicure) {
+            return "Pedicure";
+        }
+        if (manicure) {
+            return "Manicure";
+        }
+        return "";
     }
 }

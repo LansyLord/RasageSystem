@@ -42,4 +42,14 @@ public class Cabelo extends Servico {
     public void setSelagem(boolean selagem) {
         this.selagem = selagem;
     }
+
+    @Override
+    public String toString(){
+        if (corte && selagem) return "Corte e Selagem de cabelo";
+        if (corte && escova) return "Corte e Escova de cabelo";
+        if (corte) return "Corte de cabelo";
+        if (selagem) return "Selagem de cabelo";
+        if (escova) return "Escova de cabelo";
+        return "";
+    }
 }

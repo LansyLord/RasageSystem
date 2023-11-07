@@ -40,11 +40,9 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-
     public String getNumCelular() {
         return numCelular;
     }
-
 
     public void setNumCelular(String numCelular) {
         this.numCelular = numCelular;
@@ -52,10 +50,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", numCelular='" + numCelular + '\'' +
-                '}';
+        return this.nome + " CPF: " + this.cpf;
     }
 }

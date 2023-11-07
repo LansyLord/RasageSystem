@@ -6,7 +6,7 @@ public class Depilacao extends Servico {
     public static final String LAMINA = "Lâmina";
     public static final String BARBA = "Barba";
     public static final String AXILA = "Axila";
-    public static final String PERNAS = "Perna";
+    public static final String PERNAS = "Pernas";
 
     public Depilacao(String tipoDepilacao, String areaDoCorpo){
         super(calcularValorObj(areaDoCorpo, tipoDepilacao), CodigoServico.DEPILACAO);
@@ -71,5 +71,49 @@ public class Depilacao extends Servico {
 
     public void setAreaDoCorpo(String areaDoCorpo) {
         this.areaDoCorpo = areaDoCorpo;
+    }
+
+    @Override
+    public String toString(){
+        if(areaDoCorpo.equals(BARBA)) {
+            switch (tipoDepilacao) {
+                case CERA -> {
+                    return "Depilação de barba na cera";
+                }
+                case FOTO_DEPILACAO -> {
+                    return "Depilação de barba na foto depiliação";
+                }
+                case LAMINA -> {
+                    return "Depilação de barba na lâmina";
+                }
+            }
+        }
+        if(areaDoCorpo.equals(AXILA)){
+            switch (tipoDepilacao) {
+                case CERA -> {
+                    return "Depilação de axila na cera";
+                }
+                case FOTO_DEPILACAO -> {
+                    return "Depilação de axila na foto depilação";
+                }
+                case LAMINA -> {
+                    return "Depilação de axila na lâmina";
+                }
+            }
+        }
+        if(areaDoCorpo.equals(PERNAS)) {
+            switch (tipoDepilacao) {
+                case CERA -> {
+                    return "Depilação de pernas na cera";
+                }
+                case FOTO_DEPILACAO -> {
+                    return "Depilação de pernas na foto depilação";
+                }
+                case LAMINA -> {
+                    return "Depilação de pernas na lâmina";
+                }
+            }
+        }
+        return "";
     }
 }
