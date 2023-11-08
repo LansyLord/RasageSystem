@@ -177,16 +177,6 @@ public class RasageList implements RasageInterface {
         gerenciadorDadosCliente.gravarDados(dadosClientes);
     }
 
-    public void configurarProximoID() {
-        int maxID = 0;
-        for (Comanda comanda : this.comandas) {
-            if (comanda.getId() > maxID) {
-                maxID = comanda.getId();
-            }
-        }
-        Comanda.configurarProximoID(maxID + 1);
-    }
-
     @Override
     public List<Comanda> getComandas() {
         return this.comandas;

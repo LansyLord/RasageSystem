@@ -27,5 +27,4 @@ public interface RasageInterface {
     void salvarDadosComandas() throws IOException;
     void recuperarDadosClientes() throws IOException;
     void salvarDadosClientes() throws IOException;
-    void configurarProximoID();
 }

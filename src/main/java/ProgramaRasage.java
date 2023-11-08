@@ -16,7 +16,6 @@ public class ProgramaRasage {
 
 
         RasageInterface rasageSystem = new RasageList();
-        rasageSystem.configurarProximoID();
 
         try{
             rasageSystem.recuperarDadosComandas();
@@ -166,7 +165,7 @@ public class ProgramaRasage {
                                         String data = dataField.getText();
 
                                         Comanda comanda = new Comanda(clienteSelecionado, servicoComanda, tipoPagamentoSelecionado, data);
-
+                                        comanda.setId(rasageSystem.getComandas().size() + 1);
                                         try {
                                             if (rasageSystem.registrarComanda(comanda)) {
                                                 JOptionPane.showMessageDialog(null, "Comanda cadastrada com sucesso!");

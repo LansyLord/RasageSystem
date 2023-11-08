@@ -32,9 +32,6 @@ public class Comanda {
         this(null, null, "Sem pagamento", "dd/mm/yyyy");
     }
 
-    public static void configurarProximoID(int novoProximoID) {
-        proximoID = novoProximoID;
-    }
 
     @Override
     public boolean equals(Object o) {
