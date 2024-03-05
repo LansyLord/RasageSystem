@@ -1,44 +1,64 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GerenciadorDeDados {
 
-    private String nomeArquivo;
+    private static final String ARQUIVO_CLIENTES = "clientes.dat";
+    private static final String ARQUIVO_COMANDAS = "comandas.dat";
 
-    public GerenciadorDeDados(String nomeArquivo) {
-        this.nomeArquivo = nomeArquivo;
+    public HashMap<String, Cliente> recuperarClientes() throws IOException {
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream(ARQUIVO_CLIENTES));
+            return (HashMap<String, Cliente>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Não foi possível recuperar clientes!");
+            throw new IOException("Não foi possível recuperar os dados do arquivo " + ARQUIVO_CLIENTES);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+
     }
 
-    public void gravarDados(List<String> texto) throws IOException {
-        BufferedWriter escritor = null;
+    public HashMap<Integer, Comanda> recuperarComandas() throws IOException {
+        ObjectInputStream in = null;
         try {
-            escritor = new BufferedWriter(new FileWriter(this.nomeArquivo));
-            for (String s : texto) {
-                escritor.write(s + "\n");
-            }
-        } finally {
-            if (escritor != null) {
-                escritor.close();
+            in = new ObjectInputStream(new FileInputStream(ARQUIVO_COMANDAS));
+            return (HashMap<Integer, Comanda>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Não foi possível recuperar comandas!");
+            throw new IOException("Não foi possível recuperar os dados do arquivo " + ARQUIVO_COMANDAS);
+        }finally {
+            if (in != null) {
+                in.close();
             }
         }
     }
 
-    public List<String> lerDados() throws IOException {
-        List<String> lista = new ArrayList<>();
-        BufferedReader leitor = null;
+    public void salvarClientes(Map<String, Cliente> clientes) throws IOException {
+        ObjectOutputStream out = null;
         try {
-            leitor = new BufferedReader(new FileReader(this.nomeArquivo));
-            String linhaLida = leitor.readLine();
-            while (linhaLida != null) {
-                lista.add(linhaLida);
-                linhaLida = leitor.readLine();
-            }
-            return lista;
-        } finally {
-            if(leitor != null){
-                leitor.close();
-            }
+            out = new ObjectOutputStream(new FileOutputStream(ARQUIVO_CLIENTES));
+            out.writeObject(clientes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("Erro ao salvar contatos no arquivo " + ARQUIVO_CLIENTES);
+        }
+    }
+
+    public void salvarComandas(Map<Integer, Comanda> comandas) throws IOException {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(ARQUIVO_COMANDAS));
+            out.writeObject(comandas);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("Erro ao salvar contatos no arquivo " + ARQUIVO_COMANDAS);
         }
     }
 }

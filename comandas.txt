@@ -1,6 +1,7 @@
-1#Felipe#082#9#Servico@22a67b4#UNHA##25.0#Crédito
-2#Felipe#082#9#Servico@64729b1e#UNHA##25.0#Crédito
-3#Felipe#082#9#Servico@10bbd20a#UNHA##25.0#Crédito
-4#Felipe#082#9#Servico@48503868#UNHA##25.0#Crédito
-5#Felipe#082#9#Servico@6895a785#UNHA##25.0#Crédito
-6#Felipe#082#9#Servico@184f6be2#UNHA##25.0#Crédito
+1#Felipe#082#9#Servico@1f554b06#UNHA##25.0#Crédito
+2#Felipe#082#9#Servico@2833cc44#UNHA##25.0#Crédito
+3#Felipe#082#9#Servico@33f88ab#UNHA##25.0#Crédito
+4#Felipe#082#9#Servico@27a8c74e#UNHA##25.0#Crédito
+5#Felipe#082#9#Servico@2d8f65a4#UNHA##25.0#Crédito
+6#Felipe#082#9#Servico@1b68ddbd#UNHA##25.0#Crédito
+7#ROBERTO#380#9499#Servico@646d64ab#CABELO##50.0#Dinheiro ou Pix

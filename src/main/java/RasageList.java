@@ -7,46 +7,44 @@ import excecoes.comanda.NaoHaComandasNoSistemaException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RasageList implements RasageInterface {
-    private List<Comanda> comandas;
-    private List<Cliente> clientes;
+    private Map<Integer, Comanda> comandas;
+    private Map<String, Cliente> clientes;
     private GerenciadorDeDados gerenciadorDadosComanda;
     private GerenciadorDeDados gerenciadorDadosCliente;
 
-    public RasageList(List<Comanda> comandas, List<Cliente> clientes) {
+    public RasageList(Map<Integer, Comanda> comandas, Map<String, Cliente> clientes) {
         this.comandas = comandas;
         this.clientes = clientes;
-        gerenciadorDadosComanda = new GerenciadorDeDados("comandas.txt");
-        gerenciadorDadosCliente = new GerenciadorDeDados("clientes.txt");
+        gerenciadorDadosComanda = new GerenciadorDeDados();
+        gerenciadorDadosCliente = new GerenciadorDeDados();
     }
 
     public RasageList() {
-        this.comandas = new ArrayList<>();
-        this.clientes = new ArrayList<>();
-        gerenciadorDadosComanda = new GerenciadorDeDados("comandas.txt");
-        gerenciadorDadosCliente = new GerenciadorDeDados("clientes.txt");
+        this.comandas = new HashMap<>();
+        this.clientes = new HashMap<>();
+        gerenciadorDadosComanda = new GerenciadorDeDados();
+        gerenciadorDadosCliente = new GerenciadorDeDados();
     }
 
     @Override
     public boolean registrarComanda(Comanda comanda) throws ComandaJaExisteException {
-        if (this.comandas.size() > 0) {
-            for (Comanda cm : this.comandas) {
-                if (cm.equals(comanda)) {
-                    throw new ComandaJaExisteException("Comanda " + cm.toString() + " já existe no sistema!");
-                }
-            }
+        if (!this.comandas.containsKey(comanda.getId())) {
+            this.comandas.put(comanda.getId(), comanda);
+            return true;
         }
-        this.comandas.add(comanda);
-        return true;
+        throw new ComandaJaExisteException("Comanda " + comanda.toString() + " já existe no sistema!");
     }
 
     @Override
     public List<Comanda> listarComandas() throws NaoHaComandasNoSistemaException {
-        if (this.comandas.size() > 0) {
-            return this.comandas;
-        }
+       if(!this.comandas.isEmpty()){
+           return new ArrayList<>(this.comandas.values());
+       }
         throw new NaoHaComandasNoSistemaException("Não há nenhuma comanda cadastrada no sistema!");
     }
 
@@ -129,9 +127,9 @@ public class RasageList implements RasageInterface {
 
     @Override
     public void recuperarDadosComandas() throws IOException {
-        List<String> comandasSalvas = gerenciadorDadosComanda.lerDados();
-        for(String s: comandasSalvas){
-            String [] dadosComandas = s.split("#");
+        Map<String, Comanda> comandasSalvas = gerenciadorDadosComanda.recuperarComandas();
+        for (String s : comandasSalvas) {
+            String[] dadosComandas = s.split("#");
             Cliente cliente = new Cliente(dadosComandas[1], dadosComandas[2], dadosComandas[3]);
 
             double valorComanda = Double.parseDouble(dadosComandas[7]);
@@ -149,11 +147,11 @@ public class RasageList implements RasageInterface {
     @Override
     public void salvarDadosComandas() throws IOException {
         List<String> dadosComandas = new ArrayList<>();
-        for(Comanda cm: this.comandas){
-            dadosComandas.add(cm.getId()+"#"+cm.getCliente().getNome()+"#"+
-                              cm.getCliente().getCpf()+"#"+cm.getCliente().getNumCelular()+"#"+
-                              cm.getServico()+"#"+cm.getServico().getCodigoServico()+"#"+
-                              cm.getData()+"#"+cm.getServico().getValor()+"#"+cm.getTipoPagamento());
+        for (Comanda cm : this.comandas) {
+            dadosComandas.add(cm.getId() + "#" + cm.getCliente().getNome() + "#" +
+                    cm.getCliente().getCpf() + "#" + cm.getCliente().getNumCelular() + "#" +
+                    cm.getServico() + "#" + cm.getServico().getCodigoServico() + "#" +
+                    cm.getData() + "#" + cm.getServico().getValor() + "#" + cm.getTipoPagamento());
         }
         gerenciadorDadosComanda.gravarDados(dadosComandas);
     }
@@ -161,8 +159,8 @@ public class RasageList implements RasageInterface {
     @Override
     public void recuperarDadosClientes() throws IOException {
         List<String> clientesSalvos = gerenciadorDadosCliente.lerDados();
-        for(String s: clientesSalvos){
-            String [] dadosClientes = s.split("#");
+        for (String s : clientesSalvos) {
+            String[] dadosClientes = s.split("#");
             Cliente cliente = new Cliente(dadosClientes[0], dadosClientes[1], dadosClientes[2]);
             this.clientes.add(cliente);
         }
@@ -171,8 +169,8 @@ public class RasageList implements RasageInterface {
     @Override
     public void salvarDadosClientes() throws IOException {
         List<String> dadosClientes = new ArrayList<>();
-        for(Cliente cl: this.clientes){
-            dadosClientes.add(cl.getNome()+"#"+cl.getCpf()+"#"+cl.getNumCelular());
+        for (Cliente cl : this.clientes) {
+            dadosClientes.add(cl.getNome() + "#" + cl.getCpf() + "#" + cl.getNumCelular());
         }
         gerenciadorDadosCliente.gravarDados(dadosClientes);
     }

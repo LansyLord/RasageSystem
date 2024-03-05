@@ -49,7 +49,7 @@ public class ProgramaRasage {
 
                         switch (escolhaComanda) {
                             case 0:
-                                if (rasageSystem.getClientes().size() > 0) {
+                                if (!rasageSystem.getClientes().isEmpty()) {
                                     JPanel panelRegistroComanda = new JPanel();
                                     panelRegistroComanda.setLayout(new GridLayout(5, 1));
 
