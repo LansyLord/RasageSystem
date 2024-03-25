@@ -7,7 +7,6 @@ import excecoes.comanda.NaoHaComandasNoSistemaException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,15 +14,15 @@ public class ProgramaRasage {
     public static void main(String[] args) {
 
 
-        RasageInterface rasageSystem = new RasageList();
+        SalaoInterface rasageSystem = new Rasage();
 
-        try{
-            rasageSystem.recuperarDadosComandas();
-            rasageSystem.recuperarDadosClientes();
-            JOptionPane.showMessageDialog(null, "Dados recuperados com sucesso!");
-        }catch (IOException e){
-            JOptionPane.showMessageDialog(null, "Não há dados para recuperar!");
-        }
+//        try{
+//            rasageSystem.recuperarDadosComandas();
+//            rasageSystem.recuperarDadosClientes();
+//            JOptionPane.showMessageDialog(null, "Dados recuperados com sucesso!");
+//        }catch (IOException e){
+//            JOptionPane.showMessageDialog(null, "Não há dados para recuperar!");
+//        }
 
         int escolha = -1;
         while (escolha != 2) {
@@ -279,7 +278,7 @@ public class ProgramaRasage {
                                     String nomeCliente = JOptionPane.showInputDialog(null, "Insira o nome do cliente a pesquisar");
                                     String cpfCliente = JOptionPane.showInputDialog(null, "Insira o CPF do cliente a pesquisar");
                                     try {
-                                        exibirCliente(rasageSystem.pesquisarCliente(nomeCliente, cpfCliente));
+                                        exibirCliente(rasageSystem.pesquisarCliente(cpfCliente));
                                     } catch (ClienteNaoExisteException e) {
                                         JOptionPane.showMessageDialog(null, e.getMessage());
                                     }
@@ -305,13 +304,13 @@ public class ProgramaRasage {
                     break;
 
                 case 2:
-                    try{
-                        rasageSystem.salvarDadosComandas();
-                        rasageSystem.salvarDadosClientes();
-                        JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
-                    }catch (IOException e){
-                        JOptionPane.showMessageDialog(null, "Não foi possível salvar os dados!");
-                    }
+//                    try{
+//                        rasageSystem.salvarDadosComandas();
+//                        rasageSystem.salvarDadosClientes();
+//                        JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+//                    }catch (IOException e){
+//                        JOptionPane.showMessageDialog(null, "Não foi possível salvar os dados!");
+//                    }
             }
         }
     }

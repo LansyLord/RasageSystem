@@ -6,9 +6,10 @@ import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
-public interface RasageInterface {
+public interface SalaoInterface {
 
     boolean registrarComanda(Comanda comanda) throws ComandaJaExisteException;
     List<Comanda> listarComandas() throws NaoHaComandasNoSistemaException;
@@ -17,11 +18,11 @@ public interface RasageInterface {
 
     boolean cadastrarCliente(Cliente cliente) throws ClienteJaCadastradoException;
     List<Cliente> listarClientes() throws NaoHaClientesCadastradosException;
-    Cliente pesquisarCliente(String nome, String cpf) throws ClienteNaoExisteException;
+    Cliente pesquisarCliente(String cpf) throws ClienteNaoExisteException;
     boolean apagarCliente(String cpf);
 
-    List<Comanda> getComandas();
-    List<Cliente> getClientes();
+    Collection<Comanda> getComandas();
+    Collection<Cliente> getClientes();
 
     void recuperarDadosComandas() throws IOException;
     void salvarDadosComandas() throws IOException;
