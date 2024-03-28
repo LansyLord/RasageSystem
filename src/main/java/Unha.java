@@ -1,4 +1,6 @@
-public class Unha extends Servico {
+import java.io.Serializable;
+
+public class Unha extends Servico implements Serializable {
     private boolean manicure;
     private boolean pedicure;
     private String corEsmalte;

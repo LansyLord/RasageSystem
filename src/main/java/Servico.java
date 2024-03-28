@@ -1,4 +1,6 @@
-public class    Servico {
+import java.io.Serializable;
+
+public class Servico implements Serializable {
     private double valor;
     private CodigoServico codigoServico;
 

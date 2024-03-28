@@ -22,7 +22,6 @@ public class GerenciadorDeDados {
                 in.close();
             }
         }
-
     }
 
     public HashMap<Integer, Comanda> recuperarComandas() throws IOException {
@@ -47,7 +46,7 @@ public class GerenciadorDeDados {
             out.writeObject(clientes);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new IOException("Erro ao salvar contatos no arquivo " + ARQUIVO_CLIENTES);
+            throw new IOException("Erro ao salvar clientes no arquivo " + ARQUIVO_CLIENTES);
         }
     }
 
@@ -58,7 +57,7 @@ public class GerenciadorDeDados {
             out.writeObject(comandas);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new IOException("Erro ao salvar contatos no arquivo " + ARQUIVO_COMANDAS);
+            throw new IOException("Erro ao salvar clientes no arquivo " + ARQUIVO_COMANDAS);
         }
     }
 }

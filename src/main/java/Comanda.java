@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Comanda {
+public class Comanda implements Serializable {
     private int id;
     private static int idAnterior = 0;
     private Cliente cliente;

@@ -1,8 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.List;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
@@ -17,13 +17,39 @@ public class MainMenu extends JFrame {
 
     public MainMenu() {
         setTitle("Rasage System");
-
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setIconImage(rasageLogoRedonda);
         setSize(800, 600); //tamanho da janela
         setLocation(150, 150);
         setResizable(false);
         setBackground(Color.white);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                rasageSys.salvarDadosClientes();
+                rasageSys.salvarDadosComandas();
+
+                int option = JOptionPane.showConfirmDialog(MainMenu.super.rootPane, "Tem certeza que deseja " +
+                        "sair do progama?\n As alterações foram salvas automaticamente");
+                if(option == JOptionPane.YES_OPTION)
+                    dispose();
+
+            }
+        });
+
         JTable tableComandas = new JTable(rasageSys.getComandas().size(), 1);
+
+        //Reconstruir tabela de comandas ao iniciar
+        DefaultTableModel model = (DefaultTableModel) comandasTable.getModel();
+        for(Comanda c: rasageSys.getComandas()){
+            model.addRow(new Object[]{c.getId(),
+                    c.getCliente().getNome(),
+                    c.getCliente().getCpf(),
+                    c.getCliente().getNumCelular(),
+                    c.getServico(),
+                    c.getData(),
+                    c.getServico().getValor(),
+                    c.getTipoPagamento()});
+        }
 
         //Menu de operações de Cliente
         JMenu menuCliente = getMenuCliente();
@@ -46,7 +72,7 @@ public class MainMenu extends JFrame {
     public static void main(String[] args) {
         JFrame janela = new MainMenu();
         janela.setVisible(true);
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     public void atualizarTabelaComandas() {

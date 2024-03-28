@@ -11,21 +11,14 @@ import java.util.*;
 public class Rasage implements SalaoInterface {
     private Map<Integer, Comanda> comandas;
     private Map<String, Cliente> clientes;
-    private GerenciadorDeDados gerenciadorDadosComanda;
-    private GerenciadorDeDados gerenciadorDadosCliente;
-
-    public Rasage(Map<Integer, Comanda> comandas, Map<String, Cliente> clientes) {
-        this.comandas = comandas;
-        this.clientes = clientes;
-        gerenciadorDadosComanda = new GerenciadorDeDados();
-        gerenciadorDadosCliente = new GerenciadorDeDados();
-    }
+    private GerenciadorDeDados gerenciadorDadosComanda = new GerenciadorDeDados();
+    private GerenciadorDeDados gerenciadorDadosCliente = new GerenciadorDeDados();
 
     public Rasage() {
         this.comandas = new HashMap<>();
         this.clientes = new HashMap<>();
-        gerenciadorDadosComanda = new GerenciadorDeDados();
-        gerenciadorDadosCliente = new GerenciadorDeDados();
+        recuperarDadosClientes();
+        recuperarDadosComandas();
     }
 
     @Override
@@ -33,7 +26,7 @@ public class Rasage implements SalaoInterface {
         if (!this.comandas.containsKey(comanda.getId())) {
             this.comandas.put(comanda.getId(), comanda);
             return true;
-        }else
+        } else
             throw new ComandaJaExisteException("Comanda " + comanda.toString() + " já existe no sistema!");
     }
 
@@ -80,9 +73,9 @@ public class Rasage implements SalaoInterface {
         if (!this.clientes.containsKey(cliente.getCpf())) {
             this.clientes.put(cliente.getCpf(), cliente);
             return true;
-        }else
+        } else
             throw new ClienteJaCadastradoException("Cliente de nome " + cliente.getNome() +
-                " e de CPF " + cliente.getCpf() + " já está cadastrado!");
+                    " e de CPF " + cliente.getCpf() + " já está cadastrado!");
 
     }
 
@@ -116,7 +109,7 @@ public class Rasage implements SalaoInterface {
     @Override
     public void recuperarDadosComandas() {
         try {
-            this.gerenciadorDadosComanda.recuperarComandas();
+            this.comandas = this.gerenciadorDadosComanda.recuperarComandas();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -132,25 +125,23 @@ public class Rasage implements SalaoInterface {
     }
 
     @Override
-    public void recuperarDadosClientes() throws IOException {
-        if (!this.clientes.isEmpty()) {
-            try {
-                this.gerenciadorDadosCliente.recuperarClientes();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+    public void recuperarDadosClientes() {
+        try {
+            this.clientes = this.gerenciadorDadosCliente.recuperarClientes();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
+
     }
 
     @Override
-    public void salvarDadosClientes() throws IOException {
-        if (!this.clientes.isEmpty()) {
-            try {
-                this.gerenciadorDadosCliente.salvarClientes(this.clientes);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+    public void salvarDadosClientes() {
+        try {
+            this.gerenciadorDadosCliente.salvarClientes(this.clientes);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
+
     }
 
     @Override
