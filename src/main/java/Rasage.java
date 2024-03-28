@@ -33,8 +33,8 @@ public class Rasage implements SalaoInterface {
         if (!this.comandas.containsKey(comanda.getId())) {
             this.comandas.put(comanda.getId(), comanda);
             return true;
-        }
-        throw new ComandaJaExisteException("Comanda " + comanda.toString() + " já existe no sistema!");
+        }else
+            throw new ComandaJaExisteException("Comanda " + comanda.toString() + " já existe no sistema!");
     }
 
 
