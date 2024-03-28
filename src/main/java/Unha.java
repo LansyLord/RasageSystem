@@ -19,6 +19,12 @@ public class Unha extends Servico {
         this(false, false, "", "", "");
     }
 
+    public Unha(boolean manicure, boolean pedicure) {
+        super(calculaValorObj(manicure, pedicure), CodigoServico.UNHA);
+        this.manicure = manicure;
+        this.pedicure = pedicure;
+    }
+
     public static double calculaValorObj(boolean manicure, boolean pedicure) {
         if (manicure && pedicure) return 40.0;
         if (manicure || pedicure) return 25.0;
@@ -67,15 +73,9 @@ public class Unha extends Servico {
 
     @Override
     public String toString() {
-        if (pedicure && manicure) {
-            return "Manicure e Pedicure";
-        }
-        if (pedicure) {
-            return "Pedicure";
-        }
-        if (manicure) {
-            return "Manicure";
-        }
+        if (this.pedicure && this.manicure) return "Manicure e Pedicure";
+        if (this.pedicure) return "Pedicure";
+        if (this.manicure) return "Manicure";
         return "";
     }
 }

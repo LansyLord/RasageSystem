@@ -1,7 +1,8 @@
 import java.util.Objects;
 
 public class Comanda {
-    private int id = 1;
+    private int id;
+    private static int idAnterior = 0;
     private Cliente cliente;
     private Servico servico;
     private String tipoPagamento;
@@ -13,8 +14,7 @@ public class Comanda {
     private static int IDanterior;
 
     public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data) {
-        IDanterior = this.id;
-        this.id = IDanterior++;
+        this.id = ++idAnterior;
         this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;

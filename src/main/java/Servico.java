@@ -1,4 +1,4 @@
-public class Servico {
+public class    Servico {
     private double valor;
     private CodigoServico codigoServico;
 

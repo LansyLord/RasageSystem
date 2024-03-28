@@ -1,5 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.List;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
@@ -9,7 +12,10 @@ public class MainMenu extends JFrame {
     Image rasageLogoRedonda = createRoundedImage(rasageLogoImg.getImage());
     Rasage rasageSys = new Rasage();
 
-    public MainMenu(){
+    private JTable comandasTable = new JTable(new DefaultTableModel(
+            new Object[]{"ID", "Cliente", "CPF", "Celular", "Serviço", "Data", "Valor", "Pagamento"}, 0));
+
+    public MainMenu() {
         setTitle("Rasage System");
 
         setIconImage(rasageLogoRedonda);
@@ -17,7 +23,7 @@ public class MainMenu extends JFrame {
         setLocation(150, 150);
         setResizable(false);
         setBackground(Color.white);
-        JTable tableComandas = new JTable(rasageSys.getComandas().size(),1);
+        JTable tableComandas = new JTable(rasageSys.getComandas().size(), 1);
 
         //Menu de operações de Cliente
         JMenu menuCliente = getMenuCliente();
@@ -28,14 +34,40 @@ public class MainMenu extends JFrame {
         operationsMenuBar.add(menuCliente);
         operationsMenuBar.add(menuComanda);
         setJMenuBar(operationsMenuBar);
+
+        JLabel lblComandas = new JLabel("COMANDAS");
+        getContentPane().add(lblComandas, BorderLayout.NORTH);
+
+        // Adicionando a tabela a um painel com barra de rolagem
+        JScrollPane scrollPane = new JScrollPane(comandasTable);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
     }
-
-
 
     public static void main(String[] args) {
         JFrame janela = new MainMenu();
         janela.setVisible(true);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void atualizarTabelaComandas() {
+        DefaultTableModel model = (DefaultTableModel) comandasTable.getModel();
+
+        Comanda ultimaComanda = null;
+        for (Comanda c : rasageSys.getComandas()) {
+            ultimaComanda = c;
+        }
+
+
+        if (ultimaComanda != null)
+            model.addRow(new Object[]{ultimaComanda.getId(),
+                    ultimaComanda.getCliente().getNome(),
+                    ultimaComanda.getCliente().getCpf(),
+                    ultimaComanda.getCliente().getNumCelular(),
+                    ultimaComanda.getServico(),
+                    ultimaComanda.getData(),
+                    ultimaComanda.getServico().getValor(),
+                    ultimaComanda.getTipoPagamento()});
+
     }
 
     // Método para criar uma imagem com bordas redondas
@@ -66,7 +98,7 @@ public class MainMenu extends JFrame {
         JMenuItem removerCliente = new JMenuItem("Remover");
         JMenuItem attDadosCliente = new JMenuItem("Atualizar Dados");
 
-        cadastrarCliente.addActionListener(new CadastroClienteController(rasageSys, null));
+        cadastrarCliente.addActionListener(new CadastroClienteController(rasageSys, this));
 
         menuCliente.add(cadastrarCliente);
         menuCliente.add(attDadosCliente);
@@ -75,16 +107,22 @@ public class MainMenu extends JFrame {
         return menuCliente;
     }
 
-    private static JMenu getMenuComanda(){
+    private JMenu getMenuComanda() {
         JMenu menuComanda = new JMenu("Comanda");
         JMenuItem novaComanda = new JMenuItem("Nova Comanda");
         JMenuItem pesquisarComanda = new JMenuItem("Pesquisar");
         JMenuItem removerComanda = new JMenuItem("Remover");
+
+        novaComanda.addActionListener(new RegistroComandaController(rasageSys, this));
 
         menuComanda.add(novaComanda);
         menuComanda.add(pesquisarComanda);
         menuComanda.add(removerComanda);
 
         return menuComanda;
+    }
+
+    public JTable getComandasTable() {
+        return comandasTable;
     }
 }

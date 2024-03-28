@@ -18,7 +18,7 @@ public class CadastroClienteController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         JFrame frame = new JFrame("Formulário de Cadastro");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Painel para o formulário
         JPanel panel = new JPanel(new BorderLayout());
@@ -63,7 +63,6 @@ public class CadastroClienteController implements ActionListener {
                 String cpf = txtCPF.getText();
                 String numeroCelular = txtNumeroCelular.getText();
                 Cliente cliente = new Cliente(nome, cpf, numeroCelular);
-
                 try {
                     if(rasage.cadastrarCliente(cliente))
                         JOptionPane.showMessageDialog(frame,"Cliente cadastrado com sucesso!");
@@ -71,6 +70,14 @@ public class CadastroClienteController implements ActionListener {
                 } catch (ClienteJaCadastradoException erro) {
                     JOptionPane.showMessageDialog(frame, erro.getMessage());
                 }
+            }
+        });
+
+        txtNumeroCelular.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Simulando o clique no botão "Cadastrar" quando a tecla "Enter" for pressionada
+                btnCadastrar.doClick();
             }
         });
 
