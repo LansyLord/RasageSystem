@@ -163,15 +163,15 @@ public class ProgramaRasage {
                                         String tipoPagamentoSelecionado = (String) pagamentoComboBox.getSelectedItem();
                                         String data = dataField.getText();
 
-                                        Comanda comanda = new Comanda(clienteSelecionado, servicoComanda, tipoPagamentoSelecionado, data);
+                                        Comanda comanda = new Comanda(clienteSelecionado, servicoComanda, tipoPagamentoSelecionado);
                                         comanda.setId(rasageSystem.getComandas().size() + 1);
-                                        try {
-                                            if (rasageSystem.registrarComanda(comanda)) {
+
+                                            if (rasageSystem.registrarComanda(comanda))
                                                 JOptionPane.showMessageDialog(null, "Comanda cadastrada com sucesso!");
-                                            }
-                                        } catch (ComandaJaExisteException e) {
-                                            JOptionPane.showMessageDialog(null, e.getMessage());
-                                        }
+
+
+
+
                                     }
                                     break;
                                 }

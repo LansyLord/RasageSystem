@@ -1,19 +1,22 @@
 import excecoes.cliente.ClienteJaCadastradoException;
 import excecoes.cliente.ClienteNaoExisteException;
 import excecoes.cliente.NaoHaClientesCadastradosException;
-import excecoes.comanda.ComandaJaExisteException;
+import excecoes.comanda.ComandaNaoEncontradaException;
 import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface SalaoInterface {
 
-    boolean registrarComanda(Comanda comanda) throws ComandaJaExisteException;
+    boolean registrarComanda(Comanda comanda);
     List<Comanda> listarComandas() throws NaoHaComandasNoSistemaException;
     List<Comanda> pesquisarComandasPorData(String data) throws DataSemComandaException;
+    List<Comanda> pesquisaComandasPorCliente(String dadoDeBusca) throws ComandaNaoEncontradaException;
+    List<Comanda> pesquisaComandasPorServico(String servico)throws ComandaNaoEncontradaException;
     boolean apagarComanda(int id);
 
     boolean cadastrarCliente(Cliente cliente) throws ClienteJaCadastradoException;
@@ -23,6 +26,7 @@ public interface SalaoInterface {
 
     Collection<Comanda> getComandas();
     Collection<Cliente> getClientes();
+    Map<Integer, Comanda> getComandasMap();
 
     void recuperarDadosComandas() throws IOException;
     void salvarDadosComandas() throws IOException;

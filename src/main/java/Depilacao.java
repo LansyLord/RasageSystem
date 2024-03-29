@@ -1,4 +1,6 @@
-public class Depilacao extends Servico {
+import java.io.Serializable;
+
+public class Depilacao extends Servico implements Serializable {
     private String tipoDepilacao;
     private String areaDoCorpo;
     public static final String CERA = "Cera";

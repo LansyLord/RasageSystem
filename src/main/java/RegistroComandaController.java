@@ -45,11 +45,6 @@ public class RegistroComandaController implements ActionListener {
             addComponent(panelRegistroComanda, new JLabel("Tipo de pagamento: "), gbc, 0, 2);
             addComponent(panelRegistroComanda, pagamentoComboBox, gbc, 1, 2);
 
-            JLabel dataLabel = new JLabel("Data: ");
-            JTextField dataField = new JTextField(20);
-            addComponent(panelRegistroComanda, dataLabel, gbc, 0, 3);
-            addComponent(panelRegistroComanda, dataField, gbc, 1, 3);
-
             JButton registroBtn = new JButton("Registrar");
 
 
@@ -59,19 +54,16 @@ public class RegistroComandaController implements ActionListener {
                     Cliente cliente = (Cliente) clienteComboBox.getSelectedItem();
                     Servico servico = (Servico) servicoComboBox.getSelectedItem();
                     String pagamento = (String) pagamentoComboBox.getSelectedItem();
-                    String data = (String) dataField.getText();
 
-                    Comanda comanda = new Comanda(cliente, servico, pagamento, data);
-                    try {
-                        if (rasage.registrarComanda(comanda)) {
-                            JOptionPane.showMessageDialog(janelaPrincipal, "Comanda registrada com sucesso!");
-                            janelaPrincipal.atualizarTabelaComandas();
-                        }
-                        frame.dispose();
 
-                    } catch (ComandaJaExisteException erro) {
-                        JOptionPane.showMessageDialog(janelaPrincipal, erro.getMessage());
+                    Comanda comanda = new Comanda(rasage.getComandasMap().size() + 1, cliente, servico, pagamento);
+
+                    if (rasage.registrarComanda(comanda)) {
+                        JOptionPane.showMessageDialog(janelaPrincipal, "Comanda registrada com sucesso!");
+                        janelaPrincipal.atualizarTabelaComandas();
                     }
+                    frame.dispose();
+
                 }
             });
 

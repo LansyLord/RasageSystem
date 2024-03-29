@@ -1,4 +1,6 @@
-public class Cabelo extends Servico {
+import java.io.Serializable;
+
+public class Cabelo extends Servico implements Serializable {
     private boolean corte;
     private boolean escova;
     private boolean selagem;
