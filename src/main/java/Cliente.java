@@ -11,6 +11,9 @@ public class Cliente implements Serializable {
         this.cpf = cpf;
         this.numCelular = numCelular;
     }
+    public Cliente(){
+        this("", "", "");
+    }
 
     @Override
     public boolean equals(Object o) {

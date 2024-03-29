@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Comanda implements Serializable {
@@ -10,28 +12,30 @@ public class Comanda implements Serializable {
     public static final String CREDITO = "Crédito";
     public static final String DEBITO = "Débito";
     public static final String DINHEIRO_OU_PIX = "Dinheiro ou Pix";
+    private transient DateTimeFormatter f;
     private String data;
 
-    private static int IDanterior;
 
-    public Comanda(Cliente cliente, Servico servico, String tipoPagamento, String data) {
+    public Comanda(Cliente cliente, Servico servico, String tipoPagamento) {
         this.id = ++idAnterior;
         this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;
-        this.data = data;
+        this.f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.data = LocalDate.now().format(f);
     }
 
-    public Comanda(int id, Cliente cliente, Servico servico, String tipoPagamento, String data) {
+    public Comanda(int id, Cliente cliente, Servico servico, String tipoPagamento) {
         this.id = id;
         this.cliente = cliente;
         this.servico = servico;
         this.tipoPagamento = tipoPagamento;
-        this.data = data;
+        this.f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.data = LocalDate.now().format(f);
     }
 
     public Comanda() {
-        this(null, null, "Sem pagamento", "dd/mm/yyyy");
+        this(new Cliente(), null, "Sem pagamento");
     }
 
 
@@ -54,7 +58,9 @@ public class Comanda implements Serializable {
     }
 
     public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+        this.cliente.setNome(cliente.getNome());
+        this.cliente.setCpf(cliente.getCpf());
+        this.cliente.setNumCelular(cliente.getNumCelular());
     }
 
     public Servico getServico() {

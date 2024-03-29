@@ -2,6 +2,7 @@ import excecoes.cliente.ClienteJaCadastradoException;
 import excecoes.cliente.ClienteNaoExisteException;
 import excecoes.cliente.NaoHaClientesCadastradosException;
 import excecoes.comanda.ComandaJaExisteException;
+import excecoes.comanda.ComandaNaoEncontradaException;
 import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
@@ -22,13 +23,16 @@ public class Rasage implements SalaoInterface {
     }
 
     @Override
-    public boolean registrarComanda(Comanda comanda) throws ComandaJaExisteException {
+    public boolean registrarComanda(Comanda comanda) {
         if (!this.comandas.containsKey(comanda.getId())) {
             this.comandas.put(comanda.getId(), comanda);
             return true;
-        } else
-            throw new ComandaJaExisteException("Comanda " + comanda.toString() + " já existe no sistema!");
+        } else {
+            comanda.setId(comanda.getId() + 1);
+            return true;
+        }
     }
+
 
 
     @Override
@@ -55,6 +59,37 @@ public class Rasage implements SalaoInterface {
         throw new DataSemComandaException("Não há nenhuma comanda de data "
                 + data + " cadastrada no sistema!");
     }
+
+    @Override
+    public List<Comanda> pesquisaComandasPorCliente(String dadoDeBusca) throws ComandaNaoEncontradaException {
+        List<Comanda> cList = new ArrayList<>();
+        for(Comanda c: this.comandas.values()){
+            if(c.getCliente().getCpf().equals(dadoDeBusca) || c.getCliente().getNome().toLowerCase().startsWith(dadoDeBusca.toLowerCase())){
+                cList.add(c);
+            }
+        }
+        if(cList.isEmpty())
+            throw new ComandaNaoEncontradaException("Comanda não encontrada no sistema");
+        return cList;
+    }
+
+    @Override
+    public List<Comanda> pesquisaComandasPorServico(String servico) throws ComandaNaoEncontradaException {
+        List<Comanda> comandasDoServico = new ArrayList<>();
+        String[] listaServicos = new String[0];
+
+        for(Comanda c: this.comandas.values()){
+            listaServicos = c.getServico().toString().split(",");
+            for(String s: listaServicos){
+              if(s.toLowerCase().startsWith(servico.toLowerCase())) comandasDoServico.add(c);
+            }
+        }
+        if(comandasDoServico.isEmpty())
+            throw new ComandaNaoEncontradaException("Comanda não encontrada");
+
+        return comandasDoServico;
+    }
+
 
     @Override
     public boolean apagarComanda(int id) {
@@ -148,4 +183,7 @@ public class Rasage implements SalaoInterface {
     public Collection<Comanda> getComandas() {
         return this.comandas.values();
     }
+
+    @Override
+    public Map<Integer, Comanda> getComandasMap(){ return this.comandas; }
 }

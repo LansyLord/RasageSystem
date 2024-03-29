@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
@@ -38,6 +40,7 @@ public class MainMenu extends JFrame {
 
         JTable tableComandas = new JTable(rasageSys.getComandas().size(), 1);
 
+        int ultimoId = 0;
         //Reconstruir tabela de comandas ao iniciar
         DefaultTableModel model = (DefaultTableModel) comandasTable.getModel();
         for(Comanda c: rasageSys.getComandas()){
@@ -49,6 +52,7 @@ public class MainMenu extends JFrame {
                     c.getData(),
                     c.getServico().getValor(),
                     c.getTipoPagamento()});
+            ultimoId = c.getId();
         }
 
         //Menu de operações de Cliente
@@ -82,17 +86,16 @@ public class MainMenu extends JFrame {
         for (Comanda c : rasageSys.getComandas()) {
             ultimaComanda = c;
         }
+        //ultimaComanda.setIdAnterior(ultimaComanda.getId());
 
-
-        if (ultimaComanda != null)
-            model.addRow(new Object[]{ultimaComanda.getId(),
-                    ultimaComanda.getCliente().getNome(),
-                    ultimaComanda.getCliente().getCpf(),
-                    ultimaComanda.getCliente().getNumCelular(),
-                    ultimaComanda.getServico(),
-                    ultimaComanda.getData(),
-                    ultimaComanda.getServico().getValor(),
-                    ultimaComanda.getTipoPagamento()});
+        model.addRow(new Object[]{ultimaComanda.getId(),
+                ultimaComanda.getCliente().getNome(),
+                ultimaComanda.getCliente().getCpf(),
+                ultimaComanda.getCliente().getNumCelular(),
+                ultimaComanda.getServico(),
+                ultimaComanda.getData(),
+                ultimaComanda.getServico().getValor(),
+                ultimaComanda.getTipoPagamento()});
 
     }
 
@@ -136,19 +139,37 @@ public class MainMenu extends JFrame {
     private JMenu getMenuComanda() {
         JMenu menuComanda = new JMenu("Comanda");
         JMenuItem novaComanda = new JMenuItem("Nova Comanda");
-        JMenuItem pesquisarComanda = new JMenuItem("Pesquisar");
         JMenuItem removerComanda = new JMenuItem("Remover");
 
         novaComanda.addActionListener(new RegistroComandaController(rasageSys, this));
 
         menuComanda.add(novaComanda);
-        menuComanda.add(pesquisarComanda);
+        menuComanda.add(getMenuPesquisarComanda());
         menuComanda.add(removerComanda);
 
         return menuComanda;
     }
 
-    public JTable getComandasTable() {
-        return comandasTable;
+    private JMenu getMenuPesquisarComanda(){
+        JMenu menuPesquisar = new JMenu("Pesquisar");
+        JMenuItem id = new JMenuItem("Id");
+        JMenuItem cliente = new JMenuItem("Cliente");
+        JMenuItem data = new JMenuItem("Data");
+        JMenuItem servico = new JMenuItem("Serviço");
+
+        id.addActionListener(new ComandaIDSearchController(rasageSys, this));
+
+        data.addActionListener(new ComandaDataSearchController(rasageSys, this));
+
+        cliente.addActionListener(new ComandaClientSearchController(rasageSys, this));
+
+        servico.addActionListener(new ComandaServiceSearchController(rasageSys, this));
+
+        menuPesquisar.add(id);
+        menuPesquisar.add(cliente);
+        menuPesquisar.add(data);
+        menuPesquisar.add(servico);
+
+        return menuPesquisar;
     }
 }
