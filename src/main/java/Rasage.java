@@ -123,9 +123,9 @@ public class Rasage implements SalaoInterface {
     }
 
     @Override
-    public Cliente pesquisarCliente(String cpf) throws ClienteNaoExisteException {
+    public boolean existeCliente(String cpf) throws ClienteNaoExisteException {
         if (this.clientes.containsKey(cpf)) {
-            return this.clientes.get(cpf);
+            return true;
         }
         throw new ClienteNaoExisteException("O cliente de CPF " + cpf + " não está cadastrado!");
     }
@@ -186,4 +186,7 @@ public class Rasage implements SalaoInterface {
 
     @Override
     public Map<Integer, Comanda> getComandasMap(){ return this.comandas; }
+
+    @Override
+    public Map<String, Cliente> getClientesMap(){ return this.clientes; }
 }
