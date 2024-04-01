@@ -26,13 +26,11 @@ public class Rasage implements SalaoInterface {
     public boolean registrarComanda(Comanda comanda) {
         if (!this.comandas.containsKey(comanda.getId())) {
             this.comandas.put(comanda.getId(), comanda);
-            return true;
         } else {
             comanda.setId(comanda.getId() + 1);
-            return true;
         }
+        return true;
     }
-
 
 
     @Override
@@ -45,30 +43,27 @@ public class Rasage implements SalaoInterface {
 
     @Override
     public List<Comanda> pesquisarComandasPorData(String data) throws DataSemComandaException {
-        boolean existeComanda = false;
         List<Comanda> comandasDaData = new ArrayList<>();
         for (Comanda cm : this.comandas.values()) {
-            if (cm.getData().equals(data)) {
+            if (cm.getData().startsWith(data)) {
                 comandasDaData.add(cm);
-                existeComanda = true;
             }
         }
-        if (existeComanda) {
-            return comandasDaData;
-        }
-        throw new DataSemComandaException("Não há nenhuma comanda de data "
-                + data + " cadastrada no sistema!");
+        if (comandasDaData.isEmpty())
+            throw new DataSemComandaException("Não há nenhuma comanda de data "
+                    + data + " cadastrada no sistema!");
+        return comandasDaData;
     }
 
     @Override
     public List<Comanda> pesquisaComandasPorCliente(String dadoDeBusca) throws ComandaNaoEncontradaException {
         List<Comanda> cList = new ArrayList<>();
-        for(Comanda c: this.comandas.values()){
-            if(c.getCliente().getCpf().equals(dadoDeBusca) || c.getCliente().getNome().toLowerCase().startsWith(dadoDeBusca.toLowerCase())){
+        for (Comanda c : this.comandas.values()) {
+            if (c.getCliente().getCpf().equals(dadoDeBusca) || c.getCliente().getNome().toLowerCase().startsWith(dadoDeBusca.toLowerCase())) {
                 cList.add(c);
             }
         }
-        if(cList.isEmpty())
+        if (cList.isEmpty())
             throw new ComandaNaoEncontradaException("Comanda não encontrada no sistema");
         return cList;
     }
@@ -78,13 +73,13 @@ public class Rasage implements SalaoInterface {
         List<Comanda> comandasDoServico = new ArrayList<>();
         String[] listaServicos = new String[0];
 
-        for(Comanda c: this.comandas.values()){
+        for (Comanda c : this.comandas.values()) {
             listaServicos = c.getServico().toString().split(",");
-            for(String s: listaServicos){
-              if(s.toLowerCase().startsWith(servico.toLowerCase())) comandasDoServico.add(c);
+            for (String s : listaServicos) {
+                if (s.toLowerCase().startsWith(servico.toLowerCase())) comandasDoServico.add(c);
             }
         }
-        if(comandasDoServico.isEmpty())
+        if (comandasDoServico.isEmpty())
             throw new ComandaNaoEncontradaException("Comanda não encontrada");
 
         return comandasDoServico;
@@ -185,8 +180,12 @@ public class Rasage implements SalaoInterface {
     }
 
     @Override
-    public Map<Integer, Comanda> getComandasMap(){ return this.comandas; }
+    public Map<Integer, Comanda> getComandasMap() {
+        return this.comandas;
+    }
 
     @Override
-    public Map<String, Cliente> getClientesMap(){ return this.clientes; }
+    public Map<String, Cliente> getClientesMap() {
+        return this.clientes;
+    }
 }

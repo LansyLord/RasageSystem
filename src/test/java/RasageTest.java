@@ -40,19 +40,18 @@ public class RasageTest {
         SalaoInterface rasage = new Rasage();
         Cliente cliente = new Cliente("Felipe", "2837", "839");
         Servico servico = new Unha(true, true);
-        Comanda comanda = new Comanda(cliente, servico, "Débito");
+        Comanda comanda = new Comanda(rasage.getComandasMap().size()+1, cliente, servico, "Débito");
         assertThrows(ComandaNaoEncontradaException.class, () -> {
             rasage.pesquisaComandasPorCliente("Felipe");
         });
 
         try{
             rasage.cadastrarCliente(cliente);
-            rasage.registrarComanda(comanda);
         }catch(ClienteJaCadastradoException e){
             System.out.println(e.getMessage());
         }
 
-
+        rasage.registrarComanda(comanda);
         assertFalse(rasage.getComandas().isEmpty());
 
         assertDoesNotThrow(() -> {
