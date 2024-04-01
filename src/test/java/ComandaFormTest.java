@@ -59,9 +59,9 @@ public class ComandaFormTest {
                 Cliente cliente = (Cliente) clienteComboBox.getSelectedItem();
                 Servico servico = (Servico) servicoComboBox.getSelectedItem();
                 String pagamento = (String) pagamentoComboBox.getSelectedItem();
-                String data = (String) dataField.getText();
 
-                Comanda comanda = new Comanda(cliente, servico, pagamento, data);
+
+                Comanda comanda = new Comanda(cliente, servico, pagamento);
 
                 JOptionPane.showMessageDialog(null, "Comanda registrada com sucesso!");
                 frame.dispose();

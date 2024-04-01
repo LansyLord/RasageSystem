@@ -1,7 +1,6 @@
 import excecoes.cliente.ClienteJaCadastradoException;
 import excecoes.cliente.ClienteNaoExisteException;
 import excecoes.cliente.NaoHaClientesCadastradosException;
-import excecoes.comanda.ComandaJaExisteException;
 import excecoes.comanda.DataSemComandaException;
 import excecoes.comanda.NaoHaComandasNoSistemaException;
 
@@ -278,7 +277,9 @@ public class ProgramaRasage {
                                     String nomeCliente = JOptionPane.showInputDialog(null, "Insira o nome do cliente a pesquisar");
                                     String cpfCliente = JOptionPane.showInputDialog(null, "Insira o CPF do cliente a pesquisar");
                                     try {
-                                        exibirCliente(rasageSystem.pesquisarCliente(cpfCliente));
+                                       if(rasageSystem.existeCliente(cpfCliente))
+                                           exibirCliente(rasageSystem.getClientesMap().get(cpfCliente));
+
                                     } catch (ClienteNaoExisteException e) {
                                         JOptionPane.showMessageDialog(null, e.getMessage());
                                     }

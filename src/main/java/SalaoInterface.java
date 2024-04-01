@@ -21,12 +21,13 @@ public interface SalaoInterface {
 
     boolean cadastrarCliente(Cliente cliente) throws ClienteJaCadastradoException;
     List<Cliente> listarClientes() throws NaoHaClientesCadastradosException;
-    Cliente pesquisarCliente(String cpf) throws ClienteNaoExisteException;
+    boolean existeCliente(String cpf) throws ClienteNaoExisteException;
     boolean apagarCliente(String cpf);
 
     Collection<Comanda> getComandas();
     Collection<Cliente> getClientes();
     Map<Integer, Comanda> getComandasMap();
+    Map<String, Cliente> getClientesMap();
 
     void recuperarDadosComandas() throws IOException;
     void salvarDadosComandas() throws IOException;
